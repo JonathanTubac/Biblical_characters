@@ -39,7 +39,7 @@ export default function Menu({ onSelect, stats }) {
             <div className="menu__aura" aria-hidden="true" />
 
             <header className="menu__header">
-                <p className="menu__eyebrow">Antiguo Testamento</p>
+                <p className="menu__eyebrow">Antiguo y Nuevo Testamento</p>
                 <h1 className="menu__title">
                     Personajes
                     <span className="menu__title-accent">Bíblicos</span>
