@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import BookModal from '../components/BookModal'
 import { bookLabel, bookSummary } from '../data/books'
+import { playPageFlip } from '../utils/sound'
 import './Page.css'
 import './LearnPage.css'
 
@@ -26,7 +27,13 @@ export default function LearnPage({ books, onBack }) {
             <ul className="learn__grid">
                 {bookKeys.map((book, index) => (
                     <li key={book}>
-                        <button type="button" className="learn__book" onClick={() => setActiveBook(book)}>
+                        <button
+                            type="button"
+                            className="learn__book"
+                            onClick={() => setActiveBook(book)}
+                            onMouseEnter={playPageFlip}
+                            onFocus={playPageFlip}
+                        >
                             <span className="learn__index" aria-hidden="true">
                                 {String(index + 1).padStart(2, '0')}
                             </span>

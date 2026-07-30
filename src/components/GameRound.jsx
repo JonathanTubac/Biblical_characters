@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import GameResults from './GameResults'
 import { bookLabel } from '../data/books'
 import { buildDeck } from '../utils/deck'
+import { playFail, playSuccess } from '../utils/sound'
 import './Game.css'
 
 export default function GameRound({ books, config, onReconfigure, onExit, onRestart }) {
@@ -22,16 +23,21 @@ export default function GameRound({ books, config, onReconfigure, onExit, onRest
     useEffect(() => {
         if (!isTimed || resolved) return
 
+        // Al arrancar cada pregunta el tiempo siempre parte del configurado
+        let left = config.time
+
         const id = setInterval(() => {
-            setRemaining((value) => {
-                if (value > 1) return value - 1
+            left -= 1
+            setRemaining(left)
+
+            if (left <= 0) {
                 clearInterval(id)
-                return 0
-            })
+                playFail()
+            }
         }, 1000)
 
         return () => clearInterval(id)
-    }, [isTimed, resolved, index])
+    }, [isTimed, resolved, index, config.time])
 
     if (finished || !question) {
         return (
@@ -50,10 +56,14 @@ export default function GameRound({ books, config, onReconfigure, onExit, onRest
     const answer = (option) => {
         if (resolved) return
 
+        const correct = option === question.personaje
+        if (correct) playSuccess()
+        else playFail()
+
         setSelected(option)
         setResults((current) => [
             ...current,
-            { personaje: question.personaje, book: question.book, correct: option === question.personaje },
+            { personaje: question.personaje, book: question.book, correct },
         ])
     }
 
