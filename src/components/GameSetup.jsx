@@ -1,28 +1,58 @@
 import { useState } from 'react'
 import { LEVELS, bookLabel } from '../data/books'
-import { DEFAULT_CONFIG, TIME_OPTIONS, timeLabel } from '../data/game'
+import { DEFAULT_CONFIG, MIN_QUESTIONS, TIME_OPTIONS, timeLabel } from '../data/game'
 import './GameSetup.css'
 
 export default function GameSetup({ books, onStart, onBack }) {
     const bookKeys = Object.keys(books)
+    const countCharacters = (list) => list.reduce((total, book) => total + books[book].length, 0)
 
     const [level, setLevel] = useState(DEFAULT_CONFIG.level)
     const [time, setTime] = useState(DEFAULT_CONFIG.time)
     const [selectedBooks, setSelectedBooks] = useState(bookKeys)
+    // Se guarda como texto para poder borrar el campo mientras se escribe
+    const [amount, setAmount] = useState(String(DEFAULT_CONFIG.amount))
 
     const allSelected = selectedBooks.length === bookKeys.length
-    const questions = selectedBooks.reduce((total, book) => total + books[book].length, 0)
-    const ready = selectedBooks.length > 0
+    const available = countCharacters(selectedBooks)
 
-    const toggleBook = (book) =>
-        setSelectedBooks((current) =>
-            current.includes(book) ? current.filter((item) => item !== book) : [...current, book]
-        )
+    const max = available
+    const min = Math.min(MIN_QUESTIONS, max)
+    const parsedAmount = Number.parseInt(amount, 10)
+    const amountValid = Number.isInteger(parsedAmount) && parsedAmount >= min && parsedAmount <= max
 
-    const toggleAll = () => setSelectedBooks(allSelected ? [] : bookKeys)
+    const ready = selectedBooks.length > 0 && amountValid
+
+    // Si al quitar libros el número deja de caber, se recorta al máximo posible
+    const fitAmount = (nextMax) => {
+        const value = Number.parseInt(amount, 10)
+        if (Number.isInteger(value) && value > nextMax) setAmount(String(nextMax))
+    }
+
+    const toggleBook = (book) => {
+        const next = selectedBooks.includes(book)
+            ? selectedBooks.filter((item) => item !== book)
+            : [...selectedBooks, book]
+
+        setSelectedBooks(next)
+        fitAmount(countCharacters(next))
+    }
+
+    const toggleAll = () => {
+        const next = allSelected ? [] : bookKeys
+        setSelectedBooks(next)
+        fitAmount(countCharacters(next))
+    }
+
+    // Al salir del campo se ajusta lo que quedó fuera de rango o vacío
+    const normalizeAmount = () => {
+        const value = Number.parseInt(amount, 10)
+        if (!Number.isInteger(value)) return setAmount(String(Math.min(DEFAULT_CONFIG.amount, max)))
+        setAmount(String(Math.min(Math.max(value, min), max)))
+    }
 
     const start = () => {
-        if (ready) onStart({ level, time, books: selectedBooks })
+        if (ready) onStart({ level, time, books: selectedBooks, amount: parsedAmount })
     }
 
     return (
@@ -124,9 +154,80 @@ export default function GameSetup({ books, onStart, onBack }) {
                     })}
                 </div>
 
-                {!ready && (
+                {selectedBooks.length === 0 && (
                     <p className="setup__warning" role="alert">
                         Selecciona al menos un libro para empezar.
+                    </p>
+                )}
+            </section>
+
+            {/* Cantidad de preguntas */}
+            <section className="setup__section" aria-labelledby="setup-amount">
+                <div className="setup__section-head">
+                    <span className="setup__step">Paso 4</span>
+                    <h2 id="setup-amount" className="setup__section-title">Cuántas preguntas</h2>
+                </div>
+
+                <div className="setup__amount">
+                    <input
+                        id="setup-amount-input"
+                        type="number"
+                        inputMode="numeric"
+                        className={`setup__amount-input ${!amountValid ? 'is-invalid' : ''}`}
+                        value={amount}
+                        min={min}
+                        max={max}
+                        onChange={(event) => setAmount(event.target.value)}
+                        onBlur={normalizeAmount}
+                        disabled={max === 0}
+                        aria-describedby="setup-amount-help"
+                        aria-invalid={!amountValid}
+                    />
+
+                    <div className="setup__amount-info">
+                        <p id="setup-amount-help" className="setup__amount-help">
+                            {max === 0
+                                ? 'Elige libros para habilitar este campo.'
+                                : min === max
+                                  ? `Los libros elegidos solo dan para ${max} ${
+                                        max === 1 ? 'pregunta' : 'preguntas'
+                                    }.`
+                                  : `Entre ${min} y ${max} preguntas, según los ${max} personajes disponibles.`}
+                        </p>
+
+                        {max > 0 && (
+                            <div className="setup__amount-presets">
+                                {[10, 20, 30].map(
+                                    (preset) =>
+                                        preset >= min &&
+                                        preset <= max && (
+                                            <button
+                                                key={preset}
+                                                type="button"
+                                                className={`setup__preset ${
+                                                    parsedAmount === preset ? 'is-active' : ''
+                                                }`}
+                                                onClick={() => setAmount(String(preset))}
+                                            >
+                                                {preset}
+                                            </button>
+                                        )
+                                )}
+                                <button
+                                    type="button"
+                                    className={`setup__preset ${parsedAmount === max ? 'is-active' : ''}`}
+                                    onClick={() => setAmount(String(max))}
+                                >
+                                    Todas
+                                </button>
+                            </div>
+                        )}
+                    </div>
+                </div>
+
+                {max > 0 && !amountValid && (
+                    <p className="setup__warning" role="alert">
+                        Escribe un número entero entre {min} y {max}.
                     </p>
                 )}
             </section>
@@ -134,7 +235,8 @@ export default function GameSetup({ books, onStart, onBack }) {
             {/* Resumen */}
             <footer className="setup__footer">
                 <p className="setup__summary">
-                    <strong>{questions}</strong> personajes posibles · nivel{' '}
+                    <strong>{amountValid ? parsedAmount : '—'}</strong> preguntas de{' '}
+                    <strong>{available}</strong> personajes · nivel{' '}
                     <strong>{LEVELS.find((option) => option.id === level).label.toLowerCase()}</strong> ·{' '}
                     {timeLabel(time)}
                 </p>

@@ -6,7 +6,7 @@ import './Game.css'
 
 export default function GameRound({ books, config, onReconfigure, onExit, onRestart }) {
     // El mazo se baraja una sola vez por partida
-    const [deck] = useState(() => buildDeck(books, config.books, config.level))
+    const [deck] = useState(() => buildDeck(books, config.books, config.level, config.amount))
 
     const [index, setIndex] = useState(0)
     const [selected, setSelected] = useState(null)

@@ -6,10 +6,13 @@ export const TIME_OPTIONS = [
     { value: 0, label: '∞', desc: 'Sin límite' },
 ]
 
+export const MIN_QUESTIONS = 3
+
 export const DEFAULT_CONFIG = {
     level: 'intermedio',
     time: 30,
     books: [],
+    amount: 10,
 }
 
 export const timeLabel = (value) =>
