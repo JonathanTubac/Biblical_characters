@@ -1,0 +1,277 @@
+.modal {
+    position: fixed;
+    inset: 0;
+    z-index: 20;
+    display: grid;
+    place-items: center;
+    padding: clamp(1rem, 4vw, 2.5rem);
+}
+
+.modal__backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(15, 7, 1, 0.72);
+    backdrop-filter: blur(4px);
+    animation: modal-fade 0.25s ease-out both;
+}
+
+.modal__panel {
+    position: relative;
+    width: min(44rem, 100%);
+    max-height: 88vh;
+    overflow-y: auto;
+    padding: clamp(1.6rem, 4vw, 2.4rem);
+    border: 1px solid var(--line);
+    border-radius: 1.5rem;
+    background:
+        radial-gradient(80% 50% at 50% 0%, rgba(224, 172, 79, 0.16), transparent 70%),
+        linear-gradient(165deg, var(--tertiary), var(--primary) 65%);
+    box-shadow: 0 2.5rem 5rem rgba(0, 0, 0, 0.55);
+    animation: modal-rise 0.3s cubic-bezier(0.2, 0.8, 0.3, 1) both;
+}
+
+.modal__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 2.25rem;
+    height: 2.25rem;
+    display: grid;
+    place-items: center;
+    font-size: 1.6rem;
+    line-height: 1;
+    color: var(--parchment);
+    background: rgba(27, 13, 2, 0.4);
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    transition: color 0.25s ease, border-color 0.25s ease;
+}
+
+.modal__close:hover,
+.modal__close:focus-visible {
+    color: var(--gold-bright);
+    border-color: rgba(224, 172, 79, 0.6);
+}
+
+.modal__back {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 1.2rem;
+    padding: 0.45rem 0.95rem;
+    font-size: 0.72rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    background: rgba(27, 13, 2, 0.35);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    transition: border-color 0.25s ease, transform 0.25s ease;
+}
+
+.modal__back:hover,
+.modal__back:focus-visible {
+    border-color: rgba(224, 172, 79, 0.6);
+    transform: translateX(-0.2rem);
+}
+
+/* ---------- Cabecera ---------- */
+.modal__header {
+    max-width: 34rem;
+    padding-right: 2rem;
+}
+
+.modal__tag {
+    display: inline-block;
+    padding: 0.25rem 0.7rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(27, 13, 2, 0.35);
+}
+
+.modal__title,
+.modal__name {
+    margin: 0.9rem 0 0.6rem;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(2.2rem, 6vw, 3.2rem);
+    line-height: 1;
+    color: var(--parchment);
+}
+
+.modal__name {
+    margin-top: 0;
+}
+
+.modal__desc {
+    margin: 0;
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--parchment-dim);
+}
+
+/* ---------- Lista de personajes ---------- */
+.modal__list {
+    display: grid;
+    gap: 0.6rem;
+    margin: 1.6rem 0 0;
+    padding: 0;
+    list-style: none;
+}
+
+.modal__item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    width: 100%;
+    padding: 0.85rem 1rem;
+    text-align: left;
+    background: rgba(27, 13, 2, 0.28);
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    transition: background 0.25s ease, border-color 0.25s ease, transform 0.25s ease;
+}
+
+.modal__item:hover,
+.modal__item:focus-visible {
+    background: rgba(27, 13, 2, 0.45);
+    border-color: rgba(224, 172, 79, 0.55);
+    transform: translateX(0.25rem);
+}
+
+.modal__initial {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    color: var(--gold-bright);
+    background: rgba(224, 172, 79, 0.12);
+    border: 1px solid var(--line);
+    border-radius: 0.85rem;
+}
+
+.modal__item-body {
+    display: grid;
+    gap: 0.2rem;
+    min-width: 0;
+}
+
+.modal__item-name {
+    font-family: var(--font-accent);
+    font-size: 1.25rem;
+    letter-spacing: 0.02em;
+    color: var(--parchment);
+}
+
+.modal__item-desc {
+    font-size: 0.85rem;
+    line-height: 1.45;
+    color: var(--parchment-dim);
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    overflow: hidden;
+}
+
+.modal__arrow {
+    flex: none;
+    width: 1.1rem;
+    height: 1.1rem;
+    margin-left: auto;
+    fill: none;
+    stroke: var(--gold);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+/* ---------- Pistas ---------- */
+.modal__levels {
+    display: grid;
+    gap: 1rem;
+    margin-top: 1.8rem;
+}
+
+.modal__level {
+    padding: 1.1rem 1.3rem;
+    border: 1px solid var(--line);
+    border-radius: 1rem;
+    background: rgba(27, 13, 2, 0.28);
+}
+
+.modal__level-title {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: 0 0 0.7rem;
+    font-family: var(--font-accent);
+    font-weight: 400;
+    font-size: 1.15rem;
+    letter-spacing: 0.05em;
+    color: var(--parchment);
+}
+
+.modal__dot {
+    width: 0.6rem;
+    height: 0.6rem;
+    border-radius: 50%;
+    background: var(--gold);
+}
+
+.modal__level--facil .modal__dot { background: #7fc08a; }
+.modal__level--intermedio .modal__dot { background: var(--gold-bright); }
+.modal__level--dificil .modal__dot { background: #e08a5a; }
+
+.modal__hints {
+    display: grid;
+    gap: 0.55rem;
+    margin: 0;
+    padding-left: 1.1rem;
+    font-size: 0.94rem;
+    line-height: 1.55;
+    color: var(--parchment-dim);
+}
+
+.modal__hints li::marker {
+    color: var(--gold);
+}
+
+@keyframes modal-fade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes modal-rise {
+    from {
+        opacity: 0;
+        transform: translateY(1.2rem) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: none;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .modal__backdrop,
+    .modal__panel {
+        animation: none;
+    }
+
+    .modal__item:hover,
+    .modal__item:focus-visible,
+    .modal__back:hover,
+    .modal__back:focus-visible {
+        transform: none;
+    }
+}
