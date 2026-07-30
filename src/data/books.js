@@ -17,9 +17,21 @@ export const BOOK_SUMMARIES = {
 }
 
 export const LEVELS = [
-    { id: 'facil', label: 'Fácil' },
-    { id: 'intermedio', label: 'Intermedio' },
-    { id: 'dificil', label: 'Difícil' },
+    {
+        id: 'facil',
+        label: 'Fácil',
+        desc: 'Pistas directas: escenas y datos que casi todos reconocen.',
+    },
+    {
+        id: 'intermedio',
+        label: 'Intermedio',
+        desc: 'Pistas con más contexto; hay que conocer bien el relato.',
+    },
+    {
+        id: 'dificil',
+        label: 'Difícil',
+        desc: 'Detalles finos para quienes dominan el texto bíblico.',
+    },
 ]
 
 export const bookLabel = (key) => BOOK_LABELS[key] ?? key
