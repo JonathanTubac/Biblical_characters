@@ -1,12 +1,306 @@
 .menu {
+    position: relative;
     display: flex;
     flex-direction: column;
-    width: 100%;
-    height: 50vh;
-    justify-content: center;
     align-items: center;
+    justify-content: center;
+    gap: clamp(2rem, 5vh, 3.5rem);
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: clamp(2.5rem, 6vw, 4.5rem) clamp(1.25rem, 5vw, 3rem);
+    overflow: hidden;
+    text-align: center;
+    background:
+        radial-gradient(120% 80% at 50% -10%, rgba(224, 172, 79, 0.16), transparent 60%),
+        radial-gradient(90% 70% at 50% 110%, rgba(120, 69, 26, 0.55), transparent 65%),
+        linear-gradient(180deg, var(--ink) 0%, var(--ink-deep) 100%);
 }
 
-.menu h2 {
-    font-family: 'Germania';
+/* Halo de luz + textura de pergamino */
+.menu__aura {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    background:
+        radial-gradient(38rem 38rem at 50% 32%, rgba(246, 210, 135, 0.1), transparent 70%),
+        repeating-linear-gradient(115deg, rgba(246, 234, 211, 0.035) 0 2px, transparent 2px 7px);
+    mask-image: radial-gradient(75% 75% at 50% 40%, #000 30%, transparent 100%);
+}
+
+/* ---------- Encabezado ---------- */
+.menu__header {
+    position: relative;
+    max-width: 46rem;
+    animation: menu-rise 0.7s ease-out both;
+}
+
+.menu__eyebrow {
+    margin: 0 0 0.9rem;
+    font-family: var(--font-body);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.42em;
+    text-transform: uppercase;
+    color: var(--gold);
+}
+
+.menu__title {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    font-family: var(--font-display);
+    font-weight: 400;
+    font-size: clamp(3.2rem, 13vw, 7rem);
+    line-height: 0.88;
+    letter-spacing: 0.01em;
+    color: var(--parchment);
+    text-shadow: 0 0.35rem 2.5rem rgba(0, 0, 0, 0.45);
+}
+
+.menu__title-accent {
+    background: linear-gradient(180deg, var(--gold-bright) 10%, var(--gold) 55%, #a86f22 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.menu__rule {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.6rem auto;
+    max-width: 22rem;
+}
+
+.menu__rule span {
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold), transparent);
+    opacity: 0.7;
+}
+
+.menu__rule svg {
+    width: 1.15rem;
+    height: 1.15rem;
+    fill: var(--gold);
+}
+
+.menu__tagline {
+    margin: 0 auto;
+    max-width: 34rem;
+    font-size: clamp(0.95rem, 2.2vw, 1.08rem);
+    line-height: 1.65;
+    color: var(--parchment-dim);
+}
+
+/* ---------- Tarjetas ---------- */
+.menu__options {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+    gap: clamp(1rem, 2.5vw, 1.6rem);
+    width: min(56rem, 100%);
+}
+
+.menu__card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.55rem;
+    padding: clamp(1.5rem, 3vw, 2rem);
+    text-align: left;
+    border: 1px solid var(--line);
+    border-radius: 1.35rem;
+    background:
+        linear-gradient(160deg, rgba(246, 234, 211, 0.08), rgba(246, 234, 211, 0) 55%),
+        linear-gradient(165deg, var(--tertiary), var(--primary) 70%);
+    box-shadow: 0 1.4rem 2.6rem rgba(0, 0, 0, 0.38), inset 0 1px 0 rgba(246, 234, 211, 0.12);
+    overflow: hidden;
+    isolation: isolate;
+    transition: transform 0.35s cubic-bezier(0.2, 0.8, 0.3, 1), border-color 0.35s ease,
+        box-shadow 0.35s ease;
+    animation: menu-rise 0.7s ease-out both;
+}
+
+.menu__card--play { animation-delay: 0.1s; }
+.menu__card--learn { animation-delay: 0.2s; }
+
+/* Brillo que barre la tarjeta al pasar el cursor */
+.menu__card::after {
+    content: '';
+    position: absolute;
+    inset: -40% -60%;
+    z-index: -1;
+    background: radial-gradient(circle at 30% 20%, rgba(246, 210, 135, 0.28), transparent 55%);
+    opacity: 0;
+    transition: opacity 0.4s ease;
+}
+
+.menu__card:hover,
+.menu__card:focus-visible {
+    transform: translateY(-0.4rem);
+    border-color: rgba(224, 172, 79, 0.6);
+    box-shadow: 0 2rem 3.4rem rgba(0, 0, 0, 0.45), 0 0 0 1px rgba(224, 172, 79, 0.18),
+        inset 0 1px 0 rgba(246, 234, 211, 0.2);
+}
+
+.menu__card:hover::after,
+.menu__card:focus-visible::after {
+    opacity: 1;
+}
+
+.menu__card:active {
+    transform: translateY(-0.1rem);
+}
+
+.menu__card-tag {
+    align-self: flex-end;
+    margin-top: -0.25rem;
+    padding: 0.3rem 0.7rem;
+    font-size: 0.66rem;
+    font-weight: 600;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(27, 13, 2, 0.35);
+}
+
+.menu__card-icon {
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    margin-bottom: 0.4rem;
+    border-radius: 1rem;
+    background: rgba(27, 13, 2, 0.35);
+    border: 1px solid var(--line);
+}
+
+.menu__card-icon svg {
+    width: 1.75rem;
+    height: 1.75rem;
+    fill: none;
+    stroke: var(--gold-bright);
+    stroke-width: 1.4;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+}
+
+.menu__card-label {
+    font-family: var(--font-accent);
+    font-size: clamp(1.9rem, 4.5vw, 2.4rem);
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: var(--parchment);
+}
+
+.menu__card-title {
+    font-family: var(--font-display);
+    font-size: 1.05rem;
+    letter-spacing: 0.03em;
+    color: var(--gold);
+}
+
+.menu__card-desc {
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--parchment-dim);
+}
+
+.menu__card-cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    margin-top: 0.9rem;
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-bright);
+}
+
+.menu__card-cta svg {
+    width: 1.05rem;
+    height: 1.05rem;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: transform 0.3s ease;
+}
+
+.menu__card:hover .menu__card-cta svg,
+.menu__card:focus-visible .menu__card-cta svg {
+    transform: translateX(0.3rem);
+}
+
+/* ---------- Contadores ---------- */
+.menu__stats {
+    display: flex;
+    align-items: center;
+    gap: clamp(1.5rem, 5vw, 3.5rem);
+    padding-top: 0.5rem;
+    animation: menu-rise 0.7s ease-out 0.3s both;
+}
+
+.menu__stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    position: relative;
+}
+
+.menu__stat + .menu__stat::before {
+    content: '';
+    position: absolute;
+    left: calc(-1 * clamp(0.75rem, 2.5vw, 1.75rem));
+    top: 15%;
+    height: 70%;
+    border-left: 1px solid var(--line);
+}
+
+.menu__stat strong {
+    font-family: var(--font-accent);
+    font-size: 1.7rem;
+    font-weight: 400;
+    color: var(--gold-bright);
+}
+
+.menu__stat span {
+    font-size: 0.7rem;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--parchment-dim);
+}
+
+@keyframes menu-rise {
+    from {
+        opacity: 0;
+        transform: translateY(1.5rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .menu__header,
+    .menu__card,
+    .menu__stats {
+        animation: none;
+    }
+
+    .menu__card,
+    .menu__card-cta svg {
+        transition: none;
+    }
+
+    .menu__card:hover,
+    .menu__card:focus-visible {
+        transform: none;
+    }
 }
