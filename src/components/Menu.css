@@ -27,6 +27,13 @@
     mask-image: radial-gradient(75% 75% at 50% 40%, #000 30%, transparent 100%);
 }
 
+.menu__back {
+    position: absolute;
+    top: clamp(1.25rem, 4vw, 2rem);
+    left: clamp(1.25rem, 4vw, 2rem);
+    z-index: 2;
+}
+
 /* ---------- Encabezado ---------- */
 .menu__header {
     position: relative;
@@ -122,8 +129,9 @@
     animation: menu-rise 0.7s ease-out both;
 }
 
-.menu__card--play { animation-delay: 0.1s; }
-.menu__card--learn { animation-delay: 0.2s; }
+.menu__options .menu__card:nth-child(1) { animation-delay: 0.1s; }
+.menu__options .menu__card:nth-child(2) { animation-delay: 0.2s; }
+.menu__options .menu__card:nth-child(3) { animation-delay: 0.3s; }
 
 /* Brillo que barre la tarjeta al pasar el cursor */
 .menu__card::after {
