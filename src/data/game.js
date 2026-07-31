@@ -17,3 +17,28 @@ export const DEFAULT_CONFIG = {
 
 export const timeLabel = (value) =>
     value === 0 ? 'sin límite de tiempo' : `${value} segundos por pregunta`
+
+export const JUAN_LEVELS = [
+    {
+        id: 'facil',
+        label: 'Fácil',
+        desc: 'Preguntas directas sobre los pasajes más conocidos.',
+    },
+    {
+        id: 'intermedio',
+        label: 'Intermedio',
+        desc: 'Hace falta conocer bien el relato y sus detalles.',
+    },
+    {
+        id: 'dificil',
+        label: 'Difícil',
+        desc: 'Detalles finos para quienes dominan el texto del evangelio.',
+    },
+]
+
+export const DEFAULT_JUAN_CONFIG = {
+    level: 'intermedio',
+    time: 30,
+    capitulos: [],
+    amount: 10,
+}

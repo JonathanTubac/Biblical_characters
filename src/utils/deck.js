@@ -42,3 +42,21 @@ export function buildDeck(books, selectedBooks, level, amount) {
         }
     })
 }
+
+/**
+ * Arma el mazo de preguntas del evangelio de Juan: filtra por dificultad y
+ * capítulos elegidos, toma las primeras `amount` (barajadas) y mezcla las
+ * opciones de cada una. Sin `amount` entran todas.
+ */
+export function buildJuanDeck(questions, selectedChapters, level, amount) {
+    const pool = questions.filter(
+        (question) => question.dificultad === level && selectedChapters.includes(question.capitulo)
+    )
+
+    const selection = amount > 0 ? shuffle(pool).slice(0, amount) : shuffle(pool)
+
+    return selection.map((question) => ({
+        ...question,
+        opciones: shuffle(question.opciones),
+    }))
+}

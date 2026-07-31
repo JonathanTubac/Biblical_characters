@@ -1,14 +1,13 @@
-import { LEVELS, bookLabel } from '../data/books'
-import { timeLabel } from '../data/game'
+import { JUAN_LEVELS, timeLabel } from '../data/game'
 import { scoreMessage } from '../utils/score'
 import './Game.css'
 
-export default function GameResults({ results, config, onRestart, onReconfigure, onExit }) {
+export default function JuanResults({ results, config, onRestart, onReconfigure, onExit }) {
     const total = results.length
     const correct = results.filter((result) => result.correct).length
     const missed = results.filter((result) => !result.correct)
     const ratio = total > 0 ? correct / total : 0
-    const level = LEVELS.find((option) => option.id === config.level)
+    const level = JUAN_LEVELS.find((option) => option.id === config.level)
 
     return (
         <main className="page results">
@@ -20,8 +19,8 @@ export default function GameResults({ results, config, onRestart, onReconfigure,
                 </h1>
                 <p className="results__message">{scoreMessage(ratio)}</p>
                 <p className="results__config">
-                    Nivel {level.label.toLowerCase()} · {timeLabel(config.time)} ·{' '}
-                    {config.books.map(bookLabel).join(', ')}
+                    Nivel {level.label.toLowerCase()} · {timeLabel(config.time)} · {config.capitulos.length}{' '}
+                    capítulos
                 </p>
             </header>
 
@@ -34,9 +33,9 @@ export default function GameResults({ results, config, onRestart, onReconfigure,
                     <h2 className="results__missed-title">Para repasar</h2>
                     <ul>
                         {missed.map((result, position) => (
-                            <li key={`${result.personaje}-${position}`}>
-                                <span className="results__missed-name">{result.personaje}</span>
-                                <span className="results__missed-book">{bookLabel(result.book)}</span>
+                            <li key={`${result.referencia}-${position}`}>
+                                <span className="results__missed-name">{result.respuesta}</span>
+                                <span className="results__missed-book">{result.referencia}</span>
                                 {result.timedOut && <span className="results__missed-flag">sin tiempo</span>}
                             </li>
                         ))}
