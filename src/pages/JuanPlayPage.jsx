@@ -4,7 +4,7 @@ import JuanRound from '../components/JuanRound'
 import juanQuestions from '../data/juan_questions'
 import './Page.css'
 
-export default function JuanPage({ onBack }) {
+export default function JuanPlayPage({ onBack }) {
     const [config, setConfig] = useState(null)
     // Cambiar la clave remonta la ronda y vuelve a barajar el mazo
     const [round, setRound] = useState(0)

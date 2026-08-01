@@ -1,9 +1,11 @@
 import { useState } from "react"
 import MainMenu from "./components/MainMenu"
 import PersonajesMenu from "./components/PersonajesMenu"
+import JuanMenu from "./components/JuanMenu"
 import LearnPage from "./pages/LearnPage"
 import PlayPage from "./pages/PlayPage"
-import JuanPage from "./pages/JuanPage"
+import JuanPlayPage from "./pages/JuanPlayPage"
+import JuanLearnPage from "./pages/JuanLearnPage"
 import characters from "./data/characters"
 import juanQuestions from "./data/juan_questions"
 
@@ -18,6 +20,7 @@ function App() {
   const [view, setView] = useState("main")
   const goToMain = () => setView("main")
   const goToPersonajes = () => setView("personajes")
+  const goToJuan = () => setView("juan")
 
   switch (view) {
     case "play":
@@ -27,7 +30,11 @@ function App() {
     case "personajes":
       return <PersonajesMenu onSelect={setView} onBack={goToMain} stats={stats} />
     case "juan":
-      return <JuanPage onBack={goToMain} />
+      return <JuanMenu onSelect={setView} onBack={goToMain} stats={stats} />
+    case "juan-play":
+      return <JuanPlayPage onBack={goToJuan} />
+    case "juan-learn":
+      return <JuanLearnPage onBack={goToJuan} />
     default:
       return <MainMenu onSelect={setView} stats={stats} />
   }
