@@ -155,22 +155,25 @@ export default function JuanRound({ questions, config, onReconfigure, onExit, on
             </ul>
 
             {resolved && (
-                <footer className="game__feedback">
-                    <p className={`game__verdict ${selected === question.respuesta ? 'is-win' : 'is-lose'}`}>
-                        {selected === question.respuesta
-                            ? '¡Correcto!'
-                            : timedOut
-                              ? `Se acabó el tiempo. Era "${question.respuesta}".`
-                              : `Casi. Era "${question.respuesta}".`}
-                    </p>
-                    <p className="game__explain">{question.explicacion}</p>
-                    <button type="button" className="game__next" onClick={next}>
-                        {index + 1 >= deck.length ? 'Ver resultados' : 'Siguiente'}
-                        <svg viewBox="0 0 24 24" aria-hidden="true">
-                            <path d="M4 12h15M13 6l6 6-6 6" />
-                        </svg>
-                    </button>
-                </footer>
+                <>
+                    <div className="game__feedback-backdrop" aria-hidden="true" />
+                    <footer className="game__feedback">
+                        <p className={`game__verdict ${selected === question.respuesta ? 'is-win' : 'is-lose'}`}>
+                            {selected === question.respuesta
+                                ? '¡Correcto!'
+                                : timedOut
+                                  ? `Se acabó el tiempo. Era "${question.respuesta}".`
+                                  : `Casi. Era "${question.respuesta}".`}
+                        </p>
+                        <p className="game__explain">{question.explicacion}</p>
+                        <button type="button" className="game__next" onClick={next}>
+                            {index + 1 >= deck.length ? 'Ver resultados' : 'Siguiente'}
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                                <path d="M4 12h15M13 6l6 6-6 6" />
+                            </svg>
+                        </button>
+                    </footer>
+                </>
             )}
         </main>
     )
