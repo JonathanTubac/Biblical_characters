@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import JuanChapterModal from '../components/JuanChapterModal'
 import juanQuestions from '../data/juan_questions'
+import { juanChapterSummary } from '../data/juan_chapters'
 import { playPageFlip } from '../utils/sound'
 import './Page.css'
 import './LearnPage.css'
@@ -41,6 +42,7 @@ export default function JuanLearnPage({ onBack }) {
                                     {String(chapter).padStart(2, '0')}
                                 </span>
                                 <span className="learn__book-name">Capítulo {chapter}</span>
+                                <span className="learn__book-desc">{juanChapterSummary(chapter)}</span>
                                 <span className="learn__book-footer">
                                     <span className="learn__count">{count} preguntas</span>
                                     <svg viewBox="0 0 24 24" aria-hidden="true">

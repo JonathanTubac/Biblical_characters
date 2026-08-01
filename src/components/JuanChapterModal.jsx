@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { JUAN_LEVELS } from '../data/game'
+import { juanChapterDetail } from '../data/juan_chapters'
 import './BookModal.css'
 
 export default function JuanChapterModal({ chapter, questions, onClose }) {
@@ -61,6 +62,7 @@ export default function JuanChapterModal({ chapter, questions, onClose }) {
                         <header className="modal__header">
                             <span className="modal__tag">{questions.length} preguntas</span>
                             <h2 className="modal__title">Capítulo {chapter}</h2>
+                            <p className="modal__desc">{juanChapterDetail(chapter)}</p>
                         </header>
 
                         <div className="modal__levels">
