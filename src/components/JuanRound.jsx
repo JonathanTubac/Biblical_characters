@@ -88,6 +88,9 @@ export default function JuanRound({ questions, config, onReconfigure, onExit, on
 
         if (index + 1 >= deck.length) {
             setFinished(true)
+            // Libera la entrada de historial del panel de respuesta antes de
+            // mostrar los resultados
+            setSelected(null)
             return
         }
 

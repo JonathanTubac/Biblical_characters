@@ -81,6 +81,9 @@ export default function GameRound({ books, config, onReconfigure, onExit, onRest
 
         if (index + 1 >= deck.length) {
             setFinished(true)
+            // Libera la entrada de historial del panel de respuesta antes de
+            // mostrar los resultados
+            setSelected(null)
             return
         }
 

@@ -21,7 +21,12 @@ function App() {
 
   useEffect(() => {
     // Sincroniza la vista con el botón/gesto de "atrás" del navegador o del celular
-    const onPopState = (event) => setView(event.state?.view ?? "main")
+    const onPopState = (event) => {
+      // Las entradas de modales/paneles las maneja useHistoryGuard: aterrizar
+      // en una de ellas no debe cambiar de página
+      if (event.state?.__overlay) return
+      setView(event.state?.view ?? "main")
+    }
     window.addEventListener("popstate", onPopState)
     return () => window.removeEventListener("popstate", onPopState)
   }, [])

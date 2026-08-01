@@ -26,12 +26,16 @@ export function useHistoryGuard(isOpen, onBack) {
     }, [])
 
     useEffect(() => {
-        if (isOpen && !pushedRef.current) {
-            window.history.pushState({ __overlay: true }, '')
-            pushedRef.current = true
-        } else if (!isOpen && pushedRef.current) {
-            // Se cerró por otra vía (botón, click afuera, etc.): se limpia
-            // la entrada que quedó pendiente en el historial.
+        if (!isOpen) return
+
+        window.history.pushState({ __overlay: true }, '')
+        pushedRef.current = true
+
+        return () => {
+            // Se cerró por otra vía (botón, click afuera, desmontaje...): se
+            // limpia la entrada que quedó pendiente en el historial. Si el
+            // cierre vino del propio "atrás", `pushedRef` ya está en false.
+            if (!pushedRef.current) return
             pushedRef.current = false
             window.history.back()
         }
