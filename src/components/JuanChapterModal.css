@@ -1,0 +1,8 @@
+/* En pantallas angostas el texto de la pregunta ya ocupa varias líneas,
+   así que se quita el círculo con la letra de dificultad para dejar más
+   espacio y una lista más limpia. El agrupamiento por nivel ya lo indica. */
+@media (max-width: 30rem) {
+    .modal--juan .modal__initial {
+        display: none;
+    }
+}

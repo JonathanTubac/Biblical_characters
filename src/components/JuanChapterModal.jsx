@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { JUAN_LEVELS } from '../data/game'
 import { juanChapterDetail } from '../data/juan_chapters'
 import './BookModal.css'
+import './JuanChapterModal.css'
 
 export default function JuanChapterModal({ chapter, questions, onClose }) {
     const [selected, setSelected] = useState(null)
@@ -24,7 +25,7 @@ export default function JuanChapterModal({ chapter, questions, onClose }) {
     }, [selected, onClose])
 
     return (
-        <div className="modal" role="dialog" aria-modal="true" aria-label={`Capítulo ${chapter}`}>
+        <div className="modal modal--juan" role="dialog" aria-modal="true" aria-label={`Capítulo ${chapter}`}>
             <div className="modal__backdrop" onClick={onClose} />
 
             <article className="modal__panel">
