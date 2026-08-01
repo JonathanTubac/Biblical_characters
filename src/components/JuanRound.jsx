@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import JuanResults from './JuanResults'
 import { buildJuanDeck } from '../utils/deck'
 import { playFail, playSuccess } from '../utils/sound'
+import { useHistoryGuard } from '../hooks/useHistoryGuard'
 import './Game.css'
 
 export default function JuanRound({ questions, config, onReconfigure, onExit, onRestart }) {
@@ -18,6 +19,9 @@ export default function JuanRound({ questions, config, onReconfigure, onExit, on
     const isTimed = config.time > 0
     const timedOut = isTimed && remaining === 0 && selected === null
     const resolved = selected !== null || timedOut
+
+    // En móvil, "atrás" deshace la respuesta elegida en vez de salir de la página
+    useHistoryGuard(selected !== null, () => setSelected(null))
 
     useEffect(() => {
         if (!isTimed || resolved) return

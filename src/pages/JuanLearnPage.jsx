@@ -3,11 +3,13 @@ import JuanChapterModal from '../components/JuanChapterModal'
 import juanQuestions from '../data/juan_questions'
 import { juanChapterSummary } from '../data/juan_chapters'
 import { playPageFlip } from '../utils/sound'
+import { useHistoryGuard } from '../hooks/useHistoryGuard'
 import './Page.css'
 import './LearnPage.css'
 
 export default function JuanLearnPage({ onBack }) {
     const [activeChapter, setActiveChapter] = useState(null)
+    useHistoryGuard(activeChapter !== null, () => setActiveChapter(null))
 
     const chapters = [...new Set(juanQuestions.map((question) => question.capitulo))].sort((a, b) => a - b)
     const total = juanQuestions.length

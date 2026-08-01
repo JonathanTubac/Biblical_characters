@@ -2,11 +2,13 @@ import { useState } from 'react'
 import BookModal from '../components/BookModal'
 import { bookLabel, bookSummary } from '../data/books'
 import { playPageFlip } from '../utils/sound'
+import { useHistoryGuard } from '../hooks/useHistoryGuard'
 import './Page.css'
 import './LearnPage.css'
 
 export default function LearnPage({ books, onBack }) {
     const [activeBook, setActiveBook] = useState(null)
+    useHistoryGuard(activeBook !== null, () => setActiveBook(null))
 
     const bookKeys = Object.keys(books)
     const total = bookKeys.reduce((count, book) => count + books[book].length, 0)

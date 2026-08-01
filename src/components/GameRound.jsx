@@ -3,6 +3,7 @@ import GameResults from './GameResults'
 import { bookLabel } from '../data/books'
 import { buildDeck } from '../utils/deck'
 import { playFail, playSuccess } from '../utils/sound'
+import { useHistoryGuard } from '../hooks/useHistoryGuard'
 import './Game.css'
 
 export default function GameRound({ books, config, onReconfigure, onExit, onRestart }) {
@@ -19,6 +20,9 @@ export default function GameRound({ books, config, onReconfigure, onExit, onRest
     const isTimed = config.time > 0
     const timedOut = isTimed && remaining === 0 && selected === null
     const resolved = selected !== null || timedOut
+
+    // En móvil, "atrás" deshace la respuesta elegida en vez de salir de la página
+    useHistoryGuard(selected !== null, () => setSelected(null))
 
     useEffect(() => {
         if (!isTimed || resolved) return

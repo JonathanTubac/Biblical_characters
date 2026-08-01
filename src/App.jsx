@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import MainMenu from "./components/MainMenu"
 import PersonajesMenu from "./components/PersonajesMenu"
 import JuanMenu from "./components/JuanMenu"
@@ -18,25 +18,36 @@ const stats = {
 
 function App() {
   const [view, setView] = useState("main")
-  const goToMain = () => setView("main")
-  const goToPersonajes = () => setView("personajes")
-  const goToJuan = () => setView("juan")
+
+  useEffect(() => {
+    // Sincroniza la vista con el botón/gesto de "atrás" del navegador o del celular
+    const onPopState = (event) => setView(event.state?.view ?? "main")
+    window.addEventListener("popstate", onPopState)
+    return () => window.removeEventListener("popstate", onPopState)
+  }, [])
+
+  const navigate = (nextView) => {
+    window.history.pushState({ view: nextView }, "")
+    setView(nextView)
+  }
+
+  const goBack = () => window.history.back()
 
   switch (view) {
     case "play":
-      return <PlayPage books={characters} onBack={goToPersonajes} />
+      return <PlayPage books={characters} onBack={goBack} />
     case "learn":
-      return <LearnPage books={characters} onBack={goToPersonajes} />
+      return <LearnPage books={characters} onBack={goBack} />
     case "personajes":
-      return <PersonajesMenu onSelect={setView} onBack={goToMain} stats={stats} />
+      return <PersonajesMenu onSelect={navigate} onBack={goBack} stats={stats} />
     case "juan":
-      return <JuanMenu onSelect={setView} onBack={goToMain} stats={stats} />
+      return <JuanMenu onSelect={navigate} onBack={goBack} stats={stats} />
     case "juan-play":
-      return <JuanPlayPage onBack={goToJuan} />
+      return <JuanPlayPage onBack={goBack} />
     case "juan-learn":
-      return <JuanLearnPage onBack={goToJuan} />
+      return <JuanLearnPage onBack={goBack} />
     default:
-      return <MainMenu onSelect={setView} stats={stats} />
+      return <MainMenu onSelect={navigate} stats={stats} />
   }
 }
 
